@@ -206,7 +206,7 @@ if(isset($act) && trim($act) != "") {
             $password,
             md5($password),
             strtoupper($name),
-            'GR_ADMIN',
+            'GR_KONSUMEN',
             date("Y-m-d"),
             $deviceId,
             $id,
