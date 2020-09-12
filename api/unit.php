@@ -28,6 +28,7 @@ if ($act == "get_unit") {
         echo composeReply("SUCCESS", "Unit", $unit);
         exit;
 }
+//
 
 if ($act == "create_unit") {
         if ($_SERVER["REQUEST_METHOD"] != "POST") {
