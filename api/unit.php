@@ -24,11 +24,22 @@ if(isset($act) && trim($act) != "") {
 }
 
 if ($act == "get_unit") {
+    if (isset($_POST["loginToken"]) && trim($_POST["loginToken"]) != "") $loginToken = trim($_POST["loginToken"]);
+    if (isset($_GET["loginToken"]) && trim($_GET["loginToken"]) != "")   $loginToken = trim($_GET["loginToken"]);
+    if (!isset($loginToken)) {
+        echo composeReply("ERROR", "Silahkan login dahulu untuk mengakses fitur ini");
+        exit;
+    }
+    $loginData = verifyStoredLogin($loginToken);
+    if (!$loginData) {
+        echo composeReply("ERROR", "Silahkan login dahulu untuk mengakses fitur ini");
+        exit;
+    }
     $unit = $gPDO->query("SELECT * FROM rs_unit ORDER BY UNIT_KODE")->fetchAll(PDO::FETCH_OBJ);    
         echo composeReply("SUCCESS", "Unit", $unit);
         exit;
 }
-//
+
 
 if ($act == "create_unit") {
         if ($_SERVER["REQUEST_METHOD"] != "POST") {
@@ -36,17 +47,17 @@ if ($act == "create_unit") {
             exit;
         }
 
-        // if (!isset($_POST["loginToken"]) || trim($_POST["loginToken"]) == "") {
-        //     echo composeReply("ERROR", "Silahkan login dahulu untuk mengakses fitur ini");
-        //     exit;
-        // }
-        // $loginToken = trim($_POST["loginToken"]);
-        // //cek login token
-        // $loginData = verifyStoredLogin($loginToken);
-        // if (!$loginData) {
-        //     echo composeReply("ERROR", "Silahkan login dahulu untuk mengakses fitur ini");
-        //     exit;
-        // }
+        if (!isset($_POST["loginToken"]) || trim($_POST["loginToken"]) == "") {
+            echo composeReply("ERROR", "Silahkan login dahulu untuk mengakses fitur ini");
+            exit;
+        }
+        $loginToken = trim($_POST["loginToken"]);
+        //cek login token
+        $loginData = verifyStoredLogin($loginToken);
+        if (!$loginData) {
+            echo composeReply("ERROR", "Silahkan login dahulu untuk mengakses fitur ini");
+            exit;
+        }
 
         if(!isset($_POST["unitKode"]) || trim($_POST["unitKode"]) == "") {
             echo composeReply("ERROR", "Harap isikan Kode unit");
@@ -140,17 +151,17 @@ if ($act == "update_unit") {
             exit;
         }
 
-        // if (!isset($_POST["loginToken"]) || trim($_POST["loginToken"]) == "") {
-        //     echo composeReply("ERROR", "Silahkan login dahulu untuk mengakses fitur ini");
-        //     exit;
-        // }
-        // $loginToken = trim($_POST["loginToken"]);
-        // //cek login token
-        // $loginData = verifyStoredLogin($loginToken);
-        // if (!$loginData) {
-        //     echo composeReply("ERROR", "Silahkan login dahulu untuk mengakses fitur ini");
-        //     exit;
-        // }
+        if (!isset($_POST["loginToken"]) || trim($_POST["loginToken"]) == "") {
+            echo composeReply("ERROR", "Silahkan login dahulu untuk mengakses fitur ini");
+            exit;
+        }
+        $loginToken = trim($_POST["loginToken"]);
+        //cek login token
+        $loginData = verifyStoredLogin($loginToken);
+        if (!$loginData) {
+            echo composeReply("ERROR", "Silahkan login dahulu untuk mengakses fitur ini");
+            exit;
+        }
 
         $unitId = "0";
             if (!isset($_POST["unitId"]) || trim($_POST["unitId"]) == "") {
@@ -271,19 +282,19 @@ if($act == "delete_unit") {
             exit;
         }
 
-        // if(isset($_POST["loginToken"]) && trim($_POST["loginToken"]) != "")     $loginToken = trim($_POST["loginToken"]);
-        // if(!isset($loginToken)) {
-        //     echo composeReply("ERROR", "Akses tidak dikenal", array("API_ACTION" => "LOGOUT"));
-        //     exit;
-        // }
+        if(isset($_POST["loginToken"]) && trim($_POST["loginToken"]) != "")     $loginToken = trim($_POST["loginToken"]);
+        if(!isset($loginToken)) {
+            echo composeReply("ERROR", "Akses tidak dikenal", array("API_ACTION" => "LOGOUT"));
+            exit;
+        }
 
-        // $stmt = $gPDO->prepare("SELECT * FROM _users WHERE U_LOGIN_TOKEN = ?");
-        // $stmt->execute([$loginToken]);
-        // $userData = $stmt->fetch(PDO::FETCH_OBJ);
-        // if(!$userData) {
-        //     echo composeReply("ERROR", "User tidak dikenal", array("API_ACTION" => "LOGOUT"));
-        //     exit;
-        // }
+        $stmt = $gPDO->prepare("SELECT * FROM _users WHERE U_LOGIN_TOKEN = ?");
+        $stmt->execute([$loginToken]);
+        $userData = $stmt->fetch(PDO::FETCH_OBJ);
+        if(!$userData) {
+            echo composeReply("ERROR", "User tidak dikenal", array("API_ACTION" => "LOGOUT"));
+            exit;
+        }
 
         if(isset($_POST["unitId"]) && trim($_POST["unitId"]) != "") $unitId = trim(strtoupper($_POST["unitId"]));
         if(!isset($unitId)) {

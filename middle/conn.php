@@ -11,14 +11,6 @@ $db = "rentalsepeda";
 $user = "root";
 $pass = "";
 
-// $host = "149.28.145.136";
-// $db = "markpro";
-// $user = "development";
-// $pass = "qaz1WSX2cde3";
-
-// $gFirebaseAPIKey = "AAAAfVpyYwo:APA91bF7RztNb_AXVArFgmrh5IHZkx0gbfYfCSWacpDRbK6OemZtd8q6XTtcfDFmxKevMKWAqaV0iJtWezzHNHZFEuYEWU2hA1q4JgAiDoMruEWVrYaz__iH82RC7K3vCM7His9sUOaVRcsMEcoRVquTsS_7qpviUA";
-// $gFirebaseAPIKey = "AIzaSyCEmvHdpHVPQ3TDefAfRrxLNiFoEq07JRo";
-
 $gClientProjectId = "RENTALSEPEDA";
 $gBaseUrl = "http://".$host."/rentalsepeda/";
 $gDownloadUrl = $gBaseUrl."downloads/";
