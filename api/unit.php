@@ -71,11 +71,11 @@ if ($act == "create_unit") {
         }
         $unitMerk = trim($_POST["unitMerk"]);
 
-        if(!isset($_POST["unitWarna"]) || trim($_POST["unitWarna"]) == "") {
-            echo composeReply("ERROR", "Harap isikan Warna unit");
+        if(!isset($_POST["unitJenis"]) || trim($_POST["unitJenis"]) == "") {
+            echo composeReply("ERROR", "Harap isikan Jenis unit");
             exit;
         }
-        $unitWarna = trim($_POST["unitWarna"]);
+        $unitJenis = trim($_POST["unitJenis"]);
 
         if(!isset($_POST["unitHargasewa"]) || trim($_POST["unitHargasewa"]) == "") {
             echo composeReply("ERROR", "Harap isikan Harga sewa unit");
@@ -190,11 +190,11 @@ if ($act == "update_unit") {
         }
         $unitMerk = trim($_POST["unitMerk"]);
 
-        if(!isset($_POST["unitWarna"]) || trim($_POST["unitWarna"]) == "") {
-            echo composeReply("ERROR", "Harap isikan Warna unit");
+        if(!isset($_POST["unitJenis"]) || trim($_POST["unitJenis"]) == "") {
+            echo composeReply("ERROR", "Harap isikan Jenis unit");
             exit;
         }
-        $unitWarna = trim($_POST["unitWarna"]);
+        $unitJenis = trim($_POST["unitJenis"]);
 
         if(!isset($_POST["unitHargasewa"]) || trim($_POST["unitHargasewa"]) == "") {
             echo composeReply("ERROR", "Harap isikan Harga sewa unit");

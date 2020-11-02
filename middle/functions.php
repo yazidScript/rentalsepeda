@@ -610,8 +610,7 @@ function geocode($address){
   // url encode the address
   $address = urlencode($address);
    
-  // google map geocode api url
-  $url = "https://maps.google.com/maps/api/geocode/json?address={$address}";
+ 
 
   // get the json response
   $resp_json = file_get_contents($url);   
@@ -673,7 +672,6 @@ function distance($lat1, $lon1, $lat2, $lon2, $unit = "K") {
 
 function getAddress($lat,$lng) {
 	$fullAddress = $lat.",".$lng;
-  $address = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAAc4yh04bH0rxGhkvw__AOjWC4SiPX4ZM&latlng=".$lat.",".$lng);
   if(isset($address)) {
     $jsonData = @json_decode($address);
     $fullAddress = $jsonData->results[0]->formatted_address;
