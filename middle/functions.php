@@ -11,38 +11,38 @@ function formatRupiah($angka){
 	return $rupiah;
 }
 
-function terbilang($satuan){  
-	$huruf = array ("", "SATU", "DUA", "TIGA", "EMPAT", "LIMA", "ENAM","TUJUH", "DELAPAN", "SEMBILAN", "SEPULUH","SEBELAS");  
+function terbilang($satuan){
+	$huruf = array ("", "SATU", "DUA", "TIGA", "EMPAT", "LIMA", "ENAM","TUJUH", "DELAPAN", "SEMBILAN", "SEPULUH","SEBELAS");
 
 	if($satuan < 12) {
-		return " ".$huruf[$satuan];  
+		return " ".$huruf[$satuan];
 	}
 	elseif($satuan < 20) {
-		return terbilang($satuan - 10)." BELAS";  
+		return terbilang($satuan - 10)." BELAS";
 	}
 	elseif($satuan < 100) {
-		return terbilang($satuan / 10)." PULUH".terbilang($satuan % 10);  
+		return terbilang($satuan / 10)." PULUH".terbilang($satuan % 10);
 	}
 	elseif($satuan < 200) {
-		return "seratus".terbilang($satuan - 100);  
+		return "seratus".terbilang($satuan - 100);
 	}
 	elseif($satuan < 1000) {
-		return terbilang($satuan / 100)." RATUS".terbilang($satuan % 100);  
+		return terbilang($satuan / 100)." RATUS".terbilang($satuan % 100);
 	}
 	elseif($satuan < 2000) {
 		return "seribu".terbilang($satuan - 1000);
 	}
 	elseif($satuan < 1000000) {
-		return terbilang($satuan / 1000)." RIBU". terbilang($satuan % 1000);   
+		return terbilang($satuan / 1000)." RIBU". terbilang($satuan % 1000);
 	}
 	elseif($satuan < 1000000000) {
-		return terbilang($satuan / 1000000)." JUTA".terbilang($satuan % 1000000);   
+		return terbilang($satuan / 1000000)." JUTA".terbilang($satuan % 1000000);
 	}
 	elseif($satuan < 1000000000000) {
-		return terbilang($satuan / 1000000)." MILYAR".terbilang($satuan % 1000000);   
+		return terbilang($satuan / 1000000)." MILYAR".terbilang($satuan % 1000000);
 	}
 	else {
-		echo "Angka terlalu besar";  
+		echo "Angka terlalu besar";
 	}
 }
 
@@ -68,7 +68,7 @@ function simpleEncrypt($text) {
 	$salt ='secret text shared by both ends';
 	return trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $salt, $text, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND))));
 }
- 
+
 function simpleDecrypt($text) {
 	$salt ='secret text shared by both ends';
 	return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $salt, base64_decode($text), MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)));
@@ -80,47 +80,47 @@ function resizeImage($CurWidth,$CurHeight,$MaxSize,$DestFolder,$SrcImage,$Qualit
 	if($CurWidth <= 0 || $CurHeight <= 0) {
 		return false;
 	}
-	 
+
 	//Construct a proportional size of new image
 	$ImageScale         = min($MaxSize/$CurWidth, $MaxSize/$CurHeight);
 	$NewWidth           = ceil($ImageScale*$CurWidth);
 	$NewHeight          = ceil($ImageScale*$CurHeight);
 	$NewCanves          = imagecreatetruecolor($NewWidth, $NewHeight);
-	 
+
 	// Resize Image
 	if(imagecopyresampled($NewCanves, $SrcImage,0, 0, 0, 0, $NewWidth, $NewHeight, $CurWidth, $CurHeight)) {
 		switch(strtolower($ImageType)) {
 			case 'image/png':
 				imagepng($NewCanves,$DestFolder);
 				break;
-				
+
 			case 'image/gif':
 				imagegif($NewCanves,$DestFolder);
-				break;         
-				
+				break;
+
 			case 'image/jpeg':
-			
+
 			case 'image/pjpeg':
 				imagejpeg($NewCanves,$DestFolder,$Quality);
 				break;
-				
+
 			default:
 					return false;
 		}
-		
-		//Destroy image, frees memory  
+
+		//Destroy image, frees memory
 		if(is_resource($NewCanves)) imagedestroy($NewCanves);
 		return true;
 	}
 }
 
 //This function corps image to create exact square images, no matter what its original size!
-function cropImage($CurWidth,$CurHeight,$iSize,$DestFolder,$SrcImage,$Quality,$ImageType) {    
+function cropImage($CurWidth,$CurHeight,$iSize,$DestFolder,$SrcImage,$Quality,$ImageType) {
 	//Check Image size is not 0
 	if($CurWidth <= 0 || $CurHeight <= 0) {
 		return false;
 	}
-	 
+
 	//abeautifulsite.net has excellent article about "Cropping an Image to Make Square bit.ly/1gTwXW9
 	if($CurWidth>$CurHeight) {
 		$y_offset = 0;
@@ -132,33 +132,33 @@ function cropImage($CurWidth,$CurHeight,$iSize,$DestFolder,$SrcImage,$Quality,$I
 		$y_offset = ($CurHeight - $CurWidth) / 2;
 		$square_size = $CurHeight - ($y_offset * 2);
 	}
-	 
+
 	$NewCanves  = imagecreatetruecolor($iSize, $iSize);
 	if(imagecopyresampled($NewCanves, $SrcImage,0, 0, $x_offset, $y_offset, $iSize, $iSize, $square_size, $square_size)) {
 		switch(strtolower($ImageType)) {
 			case 'image/png':
 				imagepng($NewCanves,$DestFolder);
 				break;
-				
+
 			case 'image/gif':
 				imagegif($NewCanves,$DestFolder);
-				break;         
-				
+				break;
+
 			case 'image/jpeg':
-			
+
 			case 'image/pjpeg':
 				imagejpeg($NewCanves,$DestFolder,$Quality);
 				break;
-				
+
 			default:
 				return false;
 		}
-		
-		//Destroy image, frees memory  
+
+		//Destroy image, frees memory
 		if(is_resource($NewCanves)) imagedestroy($NewCanves);
 		return true;
 
-	}     
+	}
 }
 
 function composeReply($status,$msg, $payload = null) {
@@ -168,7 +168,7 @@ function composeReply($status,$msg, $payload = null) {
 		"MESSAGE" => $msg,
 		"PAYLOAD" => $payload)
 	);
-	
+
 	return $reply;
 }
 
@@ -188,7 +188,7 @@ function mysqli_Update($table_name, $form_data, $where_clause = '', $conn) {
 		if(substr(strtoupper(trim($where_clause)), 0, 5) != 'WHERE') {
 			// not found, add key word
 			$whereSQL = " WHERE ".$where_clause;
-		} 
+		}
 		else {
 			$whereSQL = " ".trim($where_clause);
 		}
@@ -220,7 +220,7 @@ function mysqli_Delete($table_name, $where_clause = '', $conn) {
 		if(substr(strtoupper(trim($where_clause)), 0, 5) != 'WHERE') {
 			// not found, add keyword
 			$whereSQL = " WHERE ".$where_clause;
-		} 
+		}
 		else {
 			$whereSQL = " ".trim($where_clause);
 		}
@@ -247,7 +247,7 @@ function tglIndo($tgl,$mode) {
 		$bln["03"]["LONG"] = "Maret";
 		$bln["03"]["SHORT"] = "Mar";
 		$bln["3"]["LONG"] = "Maret";
-		$bln["3"]["SHORT"] = "Mar";		
+		$bln["3"]["SHORT"] = "Mar";
 		$bln["04"]["LONG"] = "April";
 		$bln["04"]["SHORT"] = "Apr";
 		$bln["4"]["LONG"] = "April";
@@ -278,9 +278,9 @@ function tglIndo($tgl,$mode) {
 		$bln["11"]["SHORT"] = "Nov";
 		$bln["12"]["LONG"] = "Desember";
 		$bln["12"]["SHORT"] = "Des";
-		
+
 		$b = $t[1];
-		
+
 		if (strpos($t[2], ":") === false) { //tdk ada format waktu
 			$jam = "";
 		}
@@ -289,7 +289,7 @@ function tglIndo($tgl,$mode) {
 			$t[2] = $j[0];
 			$jam = $j[1];
 		}
-		
+
 		return $t[2]." ".$bln[$b][$mode]." ".$t[0]." ".$jam;
 	}
 	else {
@@ -310,7 +310,7 @@ function blnIndo($aBln,$mode) {
 	$bln["03"]["LONG"] = "Maret";
 	$bln["03"]["SHORT"] = "Mar";
 	$bln["3"]["LONG"] = "Maret";
-	$bln["3"]["SHORT"] = "Mar";		
+	$bln["3"]["SHORT"] = "Mar";
 	$bln["04"]["LONG"] = "April";
 	$bln["04"]["SHORT"] = "Apr";
 	$bln["4"]["LONG"] = "April";
@@ -360,7 +360,7 @@ function tglInggris($tgl,$mode) {
 		$bln["03"]["LONG"] = "March";
 		$bln["03"]["SHORT"] = "Mar";
 		$bln["3"]["LONG"] = "March";
-		$bln["3"]["SHORT"] = "Mar";		
+		$bln["3"]["SHORT"] = "Mar";
 		$bln["04"]["LONG"] = "April";
 		$bln["04"]["SHORT"] = "Apr";
 		$bln["4"]["LONG"] = "April";
@@ -391,9 +391,9 @@ function tglInggris($tgl,$mode) {
 		$bln["11"]["SHORT"] = "Nov";
 		$bln["12"]["LONG"] = "December";
 		$bln["12"]["SHORT"] = "Dec";
-		
+
 		$b = $t[1];
-		
+
 		if (strpos($t[2], ":") === false) { //tdk ada format waktu
 			$jam = "";
 		}
@@ -402,7 +402,7 @@ function tglInggris($tgl,$mode) {
 			$t[2] = $j[0];
 			$jam = $j[1];
 		}
-		
+
 		return $t[2]."-".$bln[$b][$mode]."-".$t[0]." ".$jam;
 	}
 	else {
@@ -423,7 +423,7 @@ function blnInggris($aBln,$mode) {
 	$bln["03"]["LONG"] = "March";
 	$bln["03"]["SHORT"] = "Mar";
 	$bln["3"]["LONG"] = "March";
-	$bln["3"]["SHORT"] = "Mar";		
+	$bln["3"]["SHORT"] = "Mar";
 	$bln["04"]["LONG"] = "April";
 	$bln["04"]["SHORT"] = "Apr";
 	$bln["4"]["LONG"] = "April";
@@ -472,26 +472,26 @@ function dayDifference($dateA,$dateB,$inDaysOnly) {
 		$arrDiff["MONTH"] = $interval->m;
 		$arrDiff["YEAR"] = $interval->y;
 	}
-	
+
 	return $arrDiff;
 }
 
 function cURLPost($url,$params) {
 	$postData = '';
 	//create name value pairs separated by &
-	foreach($params as $k => $v) { 
-		$postData .= $k . '='.$v.'&'; 
+	foreach($params as $k => $v) {
+		$postData .= $k . '='.$v.'&';
 	}
 	rtrim($postData, '&');
 
-	$ch = curl_init();  
+	$ch = curl_init();
 
 	curl_setopt($ch,CURLOPT_URL,$url);
 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-	curl_setopt($ch,CURLOPT_HEADER, false); 
+	curl_setopt($ch,CURLOPT_HEADER, false);
 	curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
 	curl_setopt($ch,CURLOPT_POST, count($postData));
-	curl_setopt($ch,CURLOPT_POSTFIELDS, $postData);    
+	curl_setopt($ch,CURLOPT_POSTFIELDS, $postData);
 	@curl_setopt($ch,CURLOPT_FOLLOWLOCATION,TRUE);
 	@curl_setopt($ch,CURLOPT_MAXREDIRS,2);//only 2 redirects
 	curl_setopt($ch,CURLOPT_COOKIEFILE, 'cookie.txt' );
@@ -500,7 +500,7 @@ function cURLPost($url,$params) {
 	$output = curl_exec($ch);
 
 	curl_close($ch);
-	return $output; 
+	return $output;
 }
 
 function isJSON($string){
@@ -536,7 +536,7 @@ function generateRandomColor() {
 //-----
 function verifyStoredLogin($loginToken) {
 	global $gPDO;
-	
+
 	$stmt = $gPDO->prepare("SELECT * FROM _users WHERE U_LOGIN_TOKEN = ? AND U_STATUS = 'USER_ACTIVE'");
 	$stmt->execute([$loginToken]);
 	$data = $stmt->fetch(PDO::FETCH_OBJ);
@@ -563,7 +563,7 @@ function getCenterFromDegrees($data) {
 	 *   3 = > array(45.784234, 74.542335)
 	 * );
 	*/
-	
+
 	if (!is_array($data)) return FALSE;
 
   $num_coords = count($data);
@@ -596,51 +596,51 @@ function getCenterFromDegrees($data) {
 	return array($lat * 180 / pi(), $lon * 180 / pi());
 }
 
-function parseToXML($htmlStr) { 
-  $xmlStr = str_replace('<','&lt;',$htmlStr); 
-  $xmlStr = str_replace('>','&gt;',$xmlStr); 
-  $xmlStr = str_replace('"','&quot;',$xmlStr); 
-  $xmlStr = str_replace("'",'&#39;',$xmlStr); 
-  $xmlStr = str_replace("&",'&amp;',$xmlStr); 
-  return $xmlStr; 
-} 
+function parseToXML($htmlStr) {
+  $xmlStr = str_replace('<','&lt;',$htmlStr);
+  $xmlStr = str_replace('>','&gt;',$xmlStr);
+  $xmlStr = str_replace('"','&quot;',$xmlStr);
+  $xmlStr = str_replace("'",'&#39;',$xmlStr);
+  $xmlStr = str_replace("&",'&amp;',$xmlStr);
+  return $xmlStr;
+}
 
 // function to geocode address, it will return false if unable to geocode address
-function geocode($address){ 
+function geocode($address){
   // url encode the address
   $address = urlencode($address);
-   
- 
+
+
 
   // get the json response
-  $resp_json = file_get_contents($url);   
+  $resp_json = file_get_contents($url);
   if(isset($resp_json) && trim($resp_json) != "") {
 	  // decode the json
 	  $resp = json_decode($resp_json, true);
 
-	  // response status will be 'OK', if able to geocode given address 
+	  // response status will be 'OK', if able to geocode given address
 	  if($resp['status']=='OK'){
 	    // get the important data
 	    $lati = $resp['results'][0]['geometry']['location']['lat'];
 	    $longi = $resp['results'][0]['geometry']['location']['lng'];
 	    $formatted_address = $resp['results'][0]['formatted_address'];
-	     
+
 	    // verify if data is complete
-	    if($lati && $longi && $formatted_address){     
+	    if($lati && $longi && $formatted_address){
 	      // put the data in the array
-	      $data_arr = array();                     
+	      $data_arr = array();
 	      array_push(
-	        $data_arr, 
-	        $lati, 
-	        $longi, 
+	        $data_arr,
+	        $lati,
+	        $longi,
 	        $formatted_address
 	      );
-	         
-				return $data_arr;         
+
+				return $data_arr;
 	    }
 	    else {
 	    	return false;
-	    }       
+	    }
 	  }
 	  else {
 	  	return false;
@@ -661,10 +661,10 @@ function distance($lat1, $lon1, $lat2, $lon2, $unit = "K") {
 
   if ($unit == "K") {
     return ($miles * 1.609344);
-  } 
+  }
   else if ($unit == "N") {
     return ($miles * 0.8684);
-  } 
+  }
   else {
   	return $miles;
   }
@@ -705,8 +705,8 @@ function sendAndroidPushNotificationToUser($registrationId, $notificationTitle, 
 
 	$data = array(
   	"to" => $registrationId,
-  	"notification" => array( 
-    	"title" => $notificationTitle, 
+  	"notification" => array(
+    	"title" => $notificationTitle,
     	"body" => $notificationBody
   	),
   	"data" => array(
@@ -717,21 +717,21 @@ function sendAndroidPushNotificationToUser($registrationId, $notificationTitle, 
   	),
   	"priority" => "high"
 	);
-	$data_string = json_encode($data); 
+	$data_string = json_encode($data);
 
 	$headers = array(
-		'Authorization: key='.$gFirebaseAPIKey, 
+		'Authorization: key='.$gFirebaseAPIKey,
 		'Content-Type: application/json'
-	);                                                                                 
-                                                                                                                             
-  $ch = curl_init();  
+	);
 
-	curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );                                                                  
-	curl_setopt( $ch,CURLOPT_POST, true );  
+  $ch = curl_init();
+
+	curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+	curl_setopt( $ch,CURLOPT_POST, true );
 	curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
 	curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
-	curl_setopt( $ch,CURLOPT_POSTFIELDS, $data_string);                                                                  
-                                                                                                                       
+	curl_setopt( $ch,CURLOPT_POSTFIELDS, $data_string);
+
 	$result = curl_exec($ch);
 
 	curl_close ($ch);
@@ -739,60 +739,9 @@ function sendAndroidPushNotificationToUser($registrationId, $notificationTitle, 
 	return $result;
 }
 
-function sendPushNotification($registration_ids, $message) {
-	global $gFirebaseAPIKey;
-
-	//firebase server url to send the curl request
-	$url = 'https://fcm.googleapis.com/fcm/send';
-	$fbApiKey = $gFirebaseAPIKey;
-
-	$fields = array(
-		'registration_ids' => $registration_ids,
-		'data' => $message,
-	);
-
-	//building headers for the request
-	$headers = array(
-  	'Authorization: key=' . $fbApiKey,
-  	'Content-Type: application/json'
-	);
-
-	//Initializing curl to open a connection
-	$ch = curl_init();
-
-	//Setting the curl url
-	curl_setopt($ch, CURLOPT_URL, $url);
-	  
-	//setting the method as post
-	curl_setopt($ch, CURLOPT_POST, true);
-
-	//adding headers 
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-	//disabling ssl support
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	  
-	//adding the fields in json format 
-	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-
-	//finally executing the curl request 
-	$result = curl_exec($ch);
-	if ($result === FALSE) {
-		//die('Curl failed: ' . curl_error($ch));
-		return $result;
-	}
-
-	//Now close the connection
-	curl_close($ch);
-
-	//and return the result 
-	return $result;
-}
-
 function sendSMS($to,$msg) {
-	$userKey = getSetting("SMS_ACCT_USER"); 
-	$passKey = getSetting("SMS_ACCT_PASSWORD"); 
+	$userKey = getSetting("SMS_ACCT_USER");
+	$passKey = getSetting("SMS_ACCT_PASSWORD");
 	$url = getSetting("SMS_WEB_SERVICE");
 	$results = "-";
 
@@ -843,13 +792,13 @@ function sendSMSOTP($tlp, $otp) {
 		99
 		Credit tidak mencukupi.
 	*/
-	//$userKey = "ycrx3z"; 
-	//$passKey = "ceabd0a34bde5902f2c8a2da"; 
-	$userKey = getSetting("SMS_ACCT_USER"); 
-  $passKey = getSetting("SMS_ACCT_PASSWORD"); 
+	//$userKey = "ycrx3z";
+	//$passKey = "ceabd0a34bde5902f2c8a2da";
+	$userKey = getSetting("SMS_ACCT_USER");
+  $passKey = getSetting("SMS_ACCT_PASSWORD");
 	$url = "https://reguler.zenziva.net/apps/smsotp.php";
 	$status = "-";
-	
+
 	if($userKey != "" && $userKey != "-" && $passKey != "" && $passKey != "-" && $url != "" && $url != "-" && $tlp != "" && $otp != "") {
 		$curlHandle = curl_init();
 		curl_setopt($curlHandle, CURLOPT_URL, $url);
@@ -865,7 +814,7 @@ function sendSMSOTP($tlp, $otp) {
 		$XMLdata = new SimpleXMLElement($results);
 		$status = $XMLdata->message[0]->text;
 	}
-	
+
 	return $status;
 }
 
@@ -884,54 +833,54 @@ function formatPonsel($ponsel,$prefix) {
     if(substr($ponsel,0,5) == "+6262" || substr($ponsel,0,4) == "+620" || substr($ponsel,0,4) == "6262" || substr($ponsel,0,3) == "620") {
       //+626281xxxx
       if(substr($ponsel,0,5) == "+6262")  {
-        if($prefix == "+62") { 
-          $ponsel = "+62".substr($ponsel,5);  
+        if($prefix == "+62") {
+          $ponsel = "+62".substr($ponsel,5);
         }
         if($prefix == "0") {
-          $ponsel = "0".substr($ponsel,5);  
-        }   
+          $ponsel = "0".substr($ponsel,5);
+        }
         if(trim($prefix) == "") {
-          $ponsel = substr($ponsel,5);  
-        }   
+          $ponsel = substr($ponsel,5);
+        }
       }
 
-      //+62081xxxx    
+      //+62081xxxx
       if(substr($ponsel,0,4) == "+620") {
         if($prefix == "+62") {
-          $ponsel = "+62".substr($ponsel,4);  
+          $ponsel = "+62".substr($ponsel,4);
         }
         if($prefix == "0") {
-          $ponsel = "0".substr($ponsel,4);  
-        }   
+          $ponsel = "0".substr($ponsel,4);
+        }
         if(trim($prefix) == "") {
-          $ponsel = substr($ponsel,4);  
+          $ponsel = substr($ponsel,4);
         }
       }
 
       //626281xxxx
       if(substr($ponsel,0,4) == "6262") {
-        if($prefix == "+62") { 
-          $ponsel = "+62".substr($ponsel,4);  
+        if($prefix == "+62") {
+          $ponsel = "+62".substr($ponsel,4);
         }
         if($prefix == "0") {
-          $ponsel = "0".substr($ponsel,4);  
-        }   
+          $ponsel = "0".substr($ponsel,4);
+        }
         if(trim($prefix) == "") {
-          $ponsel = substr($ponsel,4);  
-        }   
+          $ponsel = substr($ponsel,4);
+        }
       }
 
-      //62081xxxx   
+      //62081xxxx
       if(substr($ponsel,0,3) == "620")  {
         if($prefix == "+62") { //no change
-          $ponsel = "+62".substr($ponsel,3);  
+          $ponsel = "+62".substr($ponsel,3);
         }
         if($prefix === "0") {
-          $ponsel = "0".substr($ponsel,3);  
-        }   
+          $ponsel = "0".substr($ponsel,3);
+        }
         if(trim($prefix) == "") {
-          $ponsel = substr($ponsel,3);  
-        }   
+          $ponsel = substr($ponsel,3);
+        }
       }
     }
     else {
@@ -941,11 +890,11 @@ function formatPonsel($ponsel,$prefix) {
 
         }
         if($prefix == "0") {
-          $ponsel = "0".substr($ponsel,3);  
-        }   
+          $ponsel = "0".substr($ponsel,3);
+        }
         if(trim($prefix) == "") {
-          $ponsel = substr($ponsel,3);  
-        }   
+          $ponsel = substr($ponsel,3);
+        }
       }
 
       //628xxxxx
@@ -957,8 +906,8 @@ function formatPonsel($ponsel,$prefix) {
           $ponsel = "0".substr($ponsel,2);
         }
         if(trim($prefix) == "") {
-          $ponsel = substr($ponsel,2);  
-        }   
+          $ponsel = substr($ponsel,2);
+        }
       }
 
       //8132333
@@ -968,10 +917,10 @@ function formatPonsel($ponsel,$prefix) {
         }
         if($prefix == "0") {
           $ponsel = "0".$ponsel;
-        }   
+        }
         if(trim($prefix) == "") { //no change
-          
-        }   
+
+        }
       }
 
       //081xxxxx
@@ -980,11 +929,11 @@ function formatPonsel($ponsel,$prefix) {
           $ponsel = "+62".substr($ponsel,1);
         }
         if($prefix == "0") { //no change
-          
+
         }
         if(trim($prefix) == "") {
-          $ponsel = substr($ponsel,1);  
-        }   
+          $ponsel = substr($ponsel,1);
+        }
       }
     }
   }
@@ -992,14 +941,14 @@ function formatPonsel($ponsel,$prefix) {
   return $ponsel;
 }
 
-function uploadFile($path, $newName, $httpFileVariable){		
-	$folderPath = $path;	
+function uploadFile($path, $newName, $httpFileVariable){
+	$folderPath = $path;
 	if ($_FILES[$httpFileVariable]["error"] == 0){
 		if (file_exists($folderPath . $newName))	{
 			unlink($folderPath . $newName);
 			//return false;
 		}
-		
+
 		try{
 			$move = move_uploaded_file($_FILES[$httpFileVariable]["tmp_name"],	$folderPath . $newName);
 		}
@@ -1008,14 +957,14 @@ function uploadFile($path, $newName, $httpFileVariable){
 			exit;
 			return false;
 		}
-		
+
 		return true;
 	}
 }
 
 // function getSetting($setId) {
 // 	global $gPDO;
-	
+
 // 	$stmt = $gPDO->prepare("SELECT * FROM _settings WHERE SET_ID = ?");
 // 	$stmt->execute([$setId]);
 // 	$setting = $stmt->fetch(PDO::FETCH_OBJ);
@@ -1029,7 +978,7 @@ function uploadFile($path, $newName, $httpFileVariable){
 
 function getSettingInfo($setId) {
 	global $gPDO;
-	
+
 	$stmt = $gPDO->prepare("SELECT * FROM _settings WHERE SET_ID = ?");
 	$stmt->execute([$setId]);
 	$setting = $stmt->fetch(PDO::FETCH_OBJ);
@@ -1043,7 +992,7 @@ function getSettingInfo($setId) {
 
 function getReferenceInfo($category, $value) {
 	global $gPDO;
-	
+
 	$stmt = $gPDO->prepare("SELECT * FROM _references WHERE R_CATEGORY = ? AND R_ID = ?");
 	$stmt->execute([$category, $value]);
 	$ref = $stmt->fetch(PDO::FETCH_OBJ);
@@ -1057,7 +1006,7 @@ function getReferenceInfo($category, $value) {
 
 function checkLogin($id, $password) {
 	global $gPDO;
-	
+
 	$stmt = $gPDO->prepare("SELECT * FROM _users WHERE U_ID = ? AND U_PASSWORD_HASH = ? AND U_STATUS = 'USER_ACTIVE'");
 	$stmt->execute([$id, md5($id.$password)]);
 	$login = $stmt->fetch(PDO::FETCH_OBJ);
@@ -1066,7 +1015,7 @@ function checkLogin($id, $password) {
 	}
 	else {
 		return false;
-	}	
+	}
 }
 
 function calculateUnitPrice($unitId) {
@@ -1079,9 +1028,9 @@ function calculateUnitPrice($unitId) {
 	if(!$unitData)	return 0;
 
 	$hargaTanahLebih = floatval($unitData->{"UNIT_TNH_LBH_LUAS_M2"}) * floatval($unitData->{"UNIT_TNH_LBH_HARGA_M2"});
-    $bookHargaTotal = floatval($unitData->{"UNIT_HARGA_LUMPSUM"}) + $hargaTanahLebih - floatval($unitData->{"UNIT_DISKON_LUMPSUM"});      
+    $bookHargaTotal = floatval($unitData->{"UNIT_HARGA_LUMPSUM"}) + $hargaTanahLebih - floatval($unitData->{"UNIT_DISKON_LUMPSUM"});
 
-    return $bookHargaTotal;          
+    return $bookHargaTotal;
 }
 
 function sendNotification($to, $msg, $from, $tipe) {
@@ -1103,7 +1052,7 @@ function addLog($info) {
 	global $gPDO;
 
 	if(trim($info) == "")	return;
-	
+
 	$gPDO->prepare("INSERT INTO mp_logs (LOG_TGL, LOG_INFO) VALUES (?,?)")->execute([date("Y-m-d H:i:s"), $info]);
 	$logId = $gPDO->lastInsertId();
 
@@ -1150,34 +1099,4 @@ function mailgunSend($to, $subject, $message) {
 require "../vendor/autoload.php";
 use Mailgun\Mailgun;
 
-function mailgunSendByAPI($mailName, $mailTo, $mailSubject, $htmlContent, $attachment = null) {
-	# Instantiate the client.
-    $mgClient = new Mailgun(MAILGUN_API);
-    $mgClient->setSslEnabled(false);
-
-    $arrParameters = array(
-        'from'      => 'GMA5 <noreply@gma5.com>',
-        'to'        => $mailName.' <'.$mailTo.'>',
-        'subject'   => $mailSubject,
-        'text'      => strip_tags($htmlContent),
-        'html'      => $htmlContent
-    );
-
-    # Make the call to the client.
-    //$result = $mgClient->sendMessage(DOMAIN, $arrParameters, array('attachment' => '../downloads/laporan-booking-penjualan.xlsx'));
-    if(isset($attachment)) {
-    	$result = $mgClient->sendMessage(DOMAIN, $arrParameters, array('attachment' => $attachment));	
-    }
-    else {
-    	$result = $mgClient->sendMessage(DOMAIN, $arrParameters);
-    }
-    /*
-	    - http_response_body	
-			-- id	"<20200119054126.1.8092BF3FDDAA662A@dcpos.digitalcode.co.id>"
-			-- message	"Queued. Thank you."
-		- http_response_code	200
-	*/
-
-    return $result;
-}
 ?>
