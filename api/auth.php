@@ -1,4 +1,4 @@
-<?php 
+<?php
 define('_VALID_ACCESS',TRUE);
 
 include "../middle/conn.php";
@@ -72,7 +72,7 @@ if(isset($act) && trim($act) != "") {
         $loginToken = substr(md5($id . date("YmdHis")), 0, 20);
         $gPDO->prepare("UPDATE _users SET U_LOGIN_TOKEN = ? WHERE U_ID = ?")->execute([$loginToken, $userData->{"U_ID"}]);
 
-    
+
         echo composeReply("SUCCESS", "Logged in", array(
             "LOGIN_ID" => $userData->{"U_ID"},
             "LOGIN_NAME" => $userData->{"U_NAME"},
@@ -123,7 +123,7 @@ if(isset($act) && trim($act) != "") {
             $decrypted = $mcrypt->decrypt($passwordEnc);
             //overwrite
             $password = $decrypted;
-        } 
+        }
         else {
             if (!isset($_POST["password"]) || trim($_POST["password"]) == "") {
                 echo composeReply("ERROR", "Password harus diisi");
@@ -169,7 +169,7 @@ if(isset($act) && trim($act) != "") {
         //     exit;
         // }
         // $referal = trim($_POST["referal"]);
-        
+
         //cek apakah id available
         //pake PDO prepare krn query ini terima input dari user -> menghindari sql injection
         $stmt = $gPDO->prepare("SELECT * FROM _users WHERE U_ID = ?");
@@ -206,7 +206,7 @@ if(isset($act) && trim($act) != "") {
             $password,
             md5($password),
             strtoupper($name),
-            'GR_KONSUMEN',
+            'GR_ADMIN',
             date("Y-m-d"),
             $deviceId,
             $id,
@@ -223,10 +223,10 @@ if(isset($act) && trim($act) != "") {
         $userData = $stmt->fetch(PDO::FETCH_OBJ);
         if ($userData) {
             echo composeReply("SUCCESS", "Data user baru telah disimpan");
-        } 
+        }
         else {
             echo composeReply("ERROR", "Proses registrasi gagal");
-            
+
         }
     }
 
@@ -243,7 +243,7 @@ if(isset($act) && trim($act) != "") {
             exit;
         }
 
-            $konsumen = $gPDO->query("SELECT * FROM _users ORDER BY U_NAME")->fetchAll(PDO::FETCH_OBJ);    
+            $konsumen = $gPDO->query("SELECT * FROM _users WHERE U_GROUP_ROLE = 'GR_KONSUMEN'")->fetchAll(PDO::FETCH_OBJ);
             echo composeReply("SUCCESS", "Konsumen", $konsumen);
         exit;
     }
@@ -277,7 +277,7 @@ if(isset($act) && trim($act) != "") {
 
     }
 
-    
+
 }
 else {
     echo composeReply("ERROR", "[Routing ERROR] Internal error.");
