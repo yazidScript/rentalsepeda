@@ -77,75 +77,79 @@ if ($act == "create_unit") {
         }
         $unitWarna = trim($_POST["unitWarna"]);
 
+        if(!isset($_POST["unitJenis"]) || trim($_POST["unitJenis"]) == "") {
+            echo composeReply("ERROR", "Harap isikan Jenis unit");
+            exit;
+        }
+        $unitJenis = trim($_POST["unitJenis"]);
+
         if(!isset($_POST["unitHargasewa"]) || trim($_POST["unitHargasewa"]) == "") {
             echo composeReply("ERROR", "Harap isikan Harga sewa unit");
             exit;
         }
         $unitHargasewa = trim($_POST["unitHargasewa"]);
 
-        // if (isset($_FILES['uploadFile'])) {
-        //     $fileName = $_FILES['uploadFile']['name'];
-        //     $fileSize = $_FILES['uploadFile']['size'];
-        //     $fileTmp = $_FILES['uploadFile']['tmp_name'];
-        //     $fileType = $_FILES['uploadFile']['type'];
-        //     $fileError = $_FILES['uploadFile']['error'];
-        //
-        //     $a = explode(".", $_FILES["uploadFile"]["name"]);
-        //     $fileExt = strtolower(end($a));
-        //
-        //     if (isset($fileError) && $fileError > 0) {
-        //         $FILE_UPLOAD_ERROR_INFO = array(
-        //             0 => 'There is no error, the file uploaded with success',
-        //             1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-        //             2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-        //             3 => 'The uploaded file was only partially uploaded',
-        //             4 => 'No file was uploaded',
-        //             6 => 'Missing a temporary folder',
-        //             7 => 'Failed to write file to disk.',
-        //             8 => 'A PHP extension stopped the file upload.',
-        //         );
-        //
-        //         echo composeReply("ERROR", "Upload gagal : ".$FILE_UPLOAD_ERROR_INFO[$fileError]);
-        //         exit;
-        //     }
-        //
-        //     $arrFileExt = array("jpg", "jpeg", "png");
-        //     if (isset($fileName) && trim($fileName) != "") {
-        //         if (in_array($fileExt, $arrFileExt) === false) {
-        //             echo composeReply("ERROR", "Harap pilih file image yang sesuai");
-        //             exit;
-        //         }
-        //
-        //         $uploadFile = substr(md5(date("YmdHis")), 0, 5) . "." . $fileExt;
-        //         if (move_uploaded_file($fileTmp, "../uploads/" . $uploadFile)) {
-        //             $gPDO->prepare("INSERT INTO rs_unit (UNIT_KODE, UNIT_MERK, UNIT_WARNA, UNIT_GAMBAR, UNIT_HARGASEWA) VALUES (?,?,?,?,?)")->execute([$unitKode, $unitMerk, $unitWarna, $uploadFile, $unitHargasewa]);
-        //             $imgId = $gPDO->lastInsertId();
-        //             if (isset($imgId) && $imgId > 0) {
-        //                 echo composeReply("SUCCESS", "Data unit telah disimpan");
-        //             }
-        //             else {
-        //                 @unlink("../uploads/" . $uploadFile);
-        //                 echo composeReply("ERROR", "Gagal menyimpan data");
-        //             }
-        //             exit;
-        //         }
-        //         else {
-        //             echo composeReply("ERROR", "Upload gagal");
-        //             exit;
-        //         }
-        //     }
-        //     else {
-        //         echo composeReply("ERROR", "Upload gagal");
-        //         exit;
-        //     }
-        // }
-        // else {
-        //     echo composeReply("ERROR", "Harap upload file");
-        //     exit;
-        // }
-        $gPDO->prepare("INSERT INTO rs_unit (UNIT_KODE, UNIT_MERK, UNIT_WARNA, UNIT_HARGASEWA) VALUES (?,?,?,?)")->execute([$unitKode, $unitMerk, $unitWarna, $unitHargasewa]);
-             echo composeReply("SUCCESS", "Data berhasil disimpan");
-             exit;
+        if (isset($_FILES['uploadFile'])) {
+            $fileName = $_FILES['uploadFile']['name'];
+            $fileSize = $_FILES['uploadFile']['size'];
+            $fileTmp = $_FILES['uploadFile']['tmp_name'];
+            $fileType = $_FILES['uploadFile']['type'];
+            $fileError = $_FILES['uploadFile']['error'];
+        
+            $a = explode(".", $_FILES["uploadFile"]["name"]);
+            $fileExt = strtolower(end($a));
+        
+            if (isset($fileError) && $fileError > 0) {
+                $FILE_UPLOAD_ERROR_INFO = array(
+                    0 => 'There is no error, the file uploaded with success',
+                    1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+                    2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+                    3 => 'The uploaded file was only partially uploaded',
+                    4 => 'No file was uploaded',
+                    6 => 'Missing a temporary folder',
+                    7 => 'Failed to write file to disk.',
+                    8 => 'A PHP extension stopped the file upload.',
+                );
+        
+                echo composeReply("ERROR", "Upload gagal : ".$FILE_UPLOAD_ERROR_INFO[$fileError]);
+                exit;
+            }
+        
+            $arrFileExt = array("jpg", "jpeg", "png");
+            if (isset($fileName) && trim($fileName) != "") {
+                if (in_array($fileExt, $arrFileExt) === false) {
+                    echo composeReply("ERROR", "Harap pilih file image yang sesuai");
+                    exit;
+                }
+        
+                $uploadFile = substr(md5(date("YmdHis")), 0, 5) . "." . $fileExt;
+                if (move_uploaded_file($fileTmp, "../uploads/" . $uploadFile)) {
+                    $gPDO->prepare("INSERT INTO rs_unit (UNIT_KODE, UNIT_MERK, UNIT_WARNA, UNIT_JENIS, UNIT_GAMBAR, UNIT_HARGASEWA) VALUES (?,?,?,?,?,?)")->execute([$unitKode, $unitMerk, $unitWarna, $unitJenis, $uploadFile, $unitHargasewa]);
+                    $imgId = $gPDO->lastInsertId();
+                    if (isset($imgId) && $imgId > 0) {
+                        echo composeReply("SUCCESS", "Data unit telah disimpan");
+                    }
+                    else {
+                        @unlink("../uploads/" . $uploadFile);
+                        echo composeReply("ERROR", "Gagal menyimpan data");
+                    }
+                    exit;
+                }
+                else {
+                    echo composeReply("ERROR", "Upload gagal");
+                    exit;
+                }
+            }
+            else {
+                echo composeReply("ERROR", "Upload gagal");
+                exit;
+            }
+        }
+        else {
+            echo composeReply("ERROR", "Harap upload file");
+            exit;
+        }
+        
 }
 
 if ($act == "update_unit") {
@@ -199,6 +203,12 @@ if ($act == "update_unit") {
         }
         $unitJenis = trim($_POST["unitJenis"]);
 
+        if(!isset($_POST["unitWarna"]) || trim($_POST["unitWarna"]) == "") {
+            echo composeReply("ERROR", "Harap isikan Warna unit");
+            exit;
+        }
+        $unitWarna = trim($_POST["unitWarna"]);
+
         if(!isset($_POST["unitHargasewa"]) || trim($_POST["unitHargasewa"]) == "") {
             echo composeReply("ERROR", "Harap isikan Harga sewa unit");
             exit;
@@ -250,7 +260,7 @@ if ($act == "update_unit") {
 
                 $uploadFile = substr(md5(date("YmdHis")), 0, 5) . "." . $fileExt;
                 if (move_uploaded_file($fileTmp, "../uploads/" . $uploadFile)) {
-                    $gPDO->prepare("UPDATE rs_unit SET UNIT_KODE = ?, UNIT_MERK = ?, UNIT_WARNA = ?, UNIT_GAMBAR = ?, UNIT_HARGASEWA = ? WHERE UNIT_ID = ?")->execute([$unitKode, $unitMerk, $unitWarna, $uploadFile, $unitHargasewa, $unitData->{"UNIT_ID"}]);
+                    $gPDO->prepare("UPDATE rs_unit SET UNIT_KODE = ?, UNIT_MERK = ?, UNIT_WARNA = ?, UNIT_JENIS = ?, UNIT_GAMBAR = ?, UNIT_HARGASEWA = ? WHERE UNIT_ID = ?")->execute([$unitKode, $unitMerk, $unitWarna, $unitJenis, $uploadFile, $unitHargasewa, $unitData->{"UNIT_ID"}]);
                 echo composeReply("SUCCESS", "Perubahan data unit telah disimpan");
                 exit;
                     // $imgId = $gPDO->lastInsertId();

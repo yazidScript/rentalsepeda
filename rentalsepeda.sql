@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 25, 2020 at 07:25 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.2
+-- Generation Time: Dec 02, 2020 at 05:41 AM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.3.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -33,6 +33,7 @@ CREATE TABLE `rs_unit` (
   `UNIT_KODE` varchar(255) NOT NULL,
   `UNIT_MERK` varchar(255) NOT NULL,
   `UNIT_WARNA` varchar(255) NOT NULL,
+  `UNIT_JENIS` varchar(255) NOT NULL,
   `UNIT_GAMBAR` varchar(255) NOT NULL,
   `UNIT_HARGASEWA` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -41,8 +42,9 @@ CREATE TABLE `rs_unit` (
 -- Dumping data for table `rs_unit`
 --
 
-INSERT INTO `rs_unit` (`UNIT_ID`, `UNIT_KODE`, `UNIT_MERK`, `UNIT_WARNA`, `UNIT_GAMBAR`, `UNIT_HARGASEWA`) VALUES
-(1, '1234', 'BMX', 'Merah', 'sde23.jpg', '23.000');
+INSERT INTO `rs_unit` (`UNIT_ID`, `UNIT_KODE`, `UNIT_MERK`, `UNIT_WARNA`, `UNIT_JENIS`, `UNIT_GAMBAR`, `UNIT_HARGASEWA`) VALUES
+(4, '123', 'qqq', 'merah', '', '5efe3.jpg', '1000'),
+(5, 'ij478', 'BMX', 'pink', 'gunung', 'f086d.jpg', '2400');
 
 -- --------------------------------------------------------
 
@@ -54,7 +56,7 @@ CREATE TABLE `_references` (
   `R_CATEGORY` varchar(70) NOT NULL,
   `R_ID` varchar(80) NOT NULL,
   `R_INFO` varchar(100) NOT NULL,
-  `R_ORDER` int(11) DEFAULT 1
+  `R_ORDER` int(11) DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 --
@@ -214,9 +216,13 @@ CREATE TABLE `_users` (
 --
 
 INSERT INTO `_users` (`U_ID`, `U_PASSWORD`, `U_PASSWORD_HASH`, `U_NAME`, `U_AUTHORITY_ID_1`, `U_AUTHORITY_ID_2`, `U_AUTHORITY_ID_3`, `U_EMAIL`, `U_INFO`, `U_GROUP_ROLE`, `U_REG_DATE`, `U_DEVICE_ID`, `U_PHONE`, `U_FCM_TOKEN`, `U_ADDRESS`, `U_CITY`, `U_ZIP_CODE`, `U_PROVINCE`, `U_ACCT_VERIFY`, `U_ACCT_VERIFY_IMG`, `U_ACCT_VERIFY_DATE`, `U_STATUS`, `U_LOGIN_TOKEN`, `U_LOGIN_TIME`, `U_LOGOUT_TIME`, `U_FB_ID`, `U_FB_NAME`, `U_GOOGLE_ID`, `U_GOOGLE_NAME`, `U_GOOGLE_PICTURE_URL`, `U_AVATAR_PATH`, `U_BANNER_PATH`, `U_FACEBOOK`, `U_INSTAGRAM`, `U_TWITTER`, `U_BASE_LANGUAGE`, `U_COUNTRY_ID`, `U_BANNER_IMG_PATH`, `U_REG_CONFIRM_EMAIL_TOKEN`, `U_REG_CONFIRM_EMAIL_DATE`, `U_REG_CONFIRM_SMS_TOKEN`, `U_REG_CONFIRM_SMS_DATE`, `U_REG_CONFIRM_LIMIT_DATE`, `U_REFERAL`, `SYS_CREATE_TIME`, `SYS_CREATE_USER`, `SYS_UPDATE_TIME`, `SYS_UPDATE_USER`) VALUES
-('085870205314', '12345678', '25d55ad283aa400af464c76d713c07ad', 'YAZID SHOLLAKHUDIN AINUR KHAFID', '-', '-', '-', 'yazid123@gmail.com', '-', 'GR_ADMIN', '2020-03-04', '-', '085870205314', '-', '-', '-', '-', '-', 'ACCT_UNVERIFIED', '-', '0000-00-00 00:00:00', 'USER_ACTIVE', '485ff3caee7824370ad3', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '-', '-', '-', '-', 'uploads/images/profiles/no-person.jpg', '-', '-', '-', '-', '.id', 'C_ID', '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-'),
-('0123456', '121212', '93279e3308bdbbeed946fc965017f67a', 'PAIJO', '555555', '-', '-', 'paijo@gmail.com', '-', 'GR_KONSUMEN', '2020-08-22', '-', '0123456', '-', 'gebog', '-', '-', '-', 'ACCT_UNVERIFIED', '-', '0000-00-00 00:00:00', 'USER_ACTIVE', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '-', '-', '-', '-', 'uploads/images/profiles/no-person.jpg', '-', '-', '-', '-', '.id', 'C_ID', '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'RENTALSEPEDA', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-'),
-('083456789', '1234', '81dc9bdb52d04dc20036dbd8313ed055', 'YAZID', '121212121', '-', '-', 'coba@gmail.com', '-', 'GR_KONSUMEN', '2020-08-15', '-', '083456789', '-', 'BAE', '-', '-', '-', 'ACCT_UNVERIFIED', '-', '0000-00-00 00:00:00', 'USER_ACTIVE', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '-', '-', '-', '-', 'uploads/images/profiles/no-person.jpg', '-', '-', '-', '-', '.id', 'C_ID', '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'RENTALSEPEDA', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-');
+('085870205314', '12345678', '25d55ad283aa400af464c76d713c07ad', 'YAZID SHOLLAKHUDIN AINUR KHAFID', '-', '-', '-', 'yazid123@gmail.com', '-', 'GR_ADMIN', '2020-03-04', '-', '085870205314', '-', '-', '-', '-', '-', 'ACCT_UNVERIFIED', '-', '0000-00-00 00:00:00', 'USER_ACTIVE', '05bbd40d0f62d3d199e2', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '-', '-', '-', '-', 'uploads/images/profiles/no-person.jpg', '-', '-', '-', '-', '.id', 'C_ID', '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-'),
+('0985', '111', '698d51a19d8a121ce581499d7b701668', 'CUSTOMER', '0963', '-', '-', 'cust@gmail.com', '-', 'GR_KONSUMEN', '2020-09-21', '-', '0985', '-', 'default', '-', '-', '-', 'ACCT_UNVERIFIED', '-', '0000-00-00 00:00:00', 'USER_ACTIVE', '3919a5d8ff012dbfcbe4', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '-', '-', '-', '-', 'uploads/images/profiles/no-person.jpg', '-', '-', '-', '-', '.id', 'C_ID', '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'RENTALSEPEDA', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-'),
+('08963', '12', 'c20ad4d76fe97759aa27a0c99bff6710', 'TOYING', '056', '-', '-', 'toying', '-', 'GR_KONSUMEN', '2020-09-19', '-', '08963', '-', 'poiyv', '-', '-', '-', 'ACCT_UNVERIFIED', '-', '0000-00-00 00:00:00', 'USER_ACTIVE', '98ff35f2d5d1ba51a214', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '-', '-', '-', '-', 'uploads/images/profiles/no-person.jpg', '-', '-', '-', '-', '.id', 'C_ID', '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'RENTALSEPEDA', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-'),
+('1234', '123', '202cb962ac59075b964b07152d234b70', 'YAZID', '3494976', '-', '-', 'bbb@gmail.com', '-', 'GR_KONSUMEN', '2020-08-31', '-', '1234', '-', 'kkkk', '-', '-', '-', 'ACCT_UNVERIFIED', '-', '0000-00-00 00:00:00', 'USER_ACTIVE', 'eabb0462dc0ece7a52f2', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '-', '-', '-', '-', 'uploads/images/profiles/no-person.jpg', '-', '-', '-', '-', '.id', 'C_ID', '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'RENTALSEPEDA', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-'),
+('9632', '12', 'c20ad4d76fe97759aa27a0c99bff6710', 'KUSTOM', '689', '-', '-', 'kust@gmail.com', '-', 'GR_KONSUMEN', '2020-09-21', '-', '9632', '-', 'kdl', '-', '-', '-', 'ACCT_UNVERIFIED', '-', '0000-00-00 00:00:00', 'USER_ACTIVE', '3d2a8dc221d462ce351c', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '-', '-', '-', '-', 'uploads/images/profiles/no-person.jpg', '-', '-', '-', '-', '.id', 'C_ID', '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'RENTALSEPEDA', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-'),
+('0822', '123', '202cb962ac59075b964b07152d234b70', 'YAZID', '085', '-', '-', 'yazid', '-', 'GR_KONSUMEN', '2020-09-21', '-', '0822', '-', 'ppp', '-', '-', '-', 'ACCT_UNVERIFIED', '-', '0000-00-00 00:00:00', 'USER_ACTIVE', '70b9be4b97c499c30573', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '-', '-', '-', '-', 'uploads/images/profiles/no-person.jpg', '-', '-', '-', '-', '.id', 'C_ID', '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'RENTALSEPEDA', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-'),
+('12345678', '1234', '81dc9bdb52d04dc20036dbd8313ed055', 'ADMIN', '1234', '-', '-', 'admin@gmail.com', '-', 'GR_ADMIN', '2020-09-07', '-', '12345678', '-', 'BAE', '-', '-', '-', 'ACCT_UNVERIFIED', '-', '0000-00-00 00:00:00', 'USER_ACTIVE', '613720b7071e29b224f2', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '-', '-', '-', '-', 'uploads/images/profiles/no-person.jpg', '-', '-', '-', '-', '.id', 'C_ID', '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'RENTALSEPEDA', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00', '-');
 
 --
 -- Indexes for dumped tables
@@ -259,7 +265,7 @@ ALTER TABLE `_users`
 -- AUTO_INCREMENT for table `rs_unit`
 --
 ALTER TABLE `rs_unit`
-  MODIFY `UNIT_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `UNIT_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
